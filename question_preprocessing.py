@@ -31,12 +31,13 @@ class question_preprocessing:
                                 'MAG-IDs/MAKG-IDs' : paper_id,
                                 'KG' : kg})
         else:
-            annotations = ''
-            imrad = ''
+            annotations = self.annotation_template(input_question)
+            imrad = self.check_imrad(input_question)
+            
             output = json.dumps({'plural': plural, 
                                 'MAG-IDs/MAKG-IDs' : paper_id,
                                 'KG' : kg,
-                                'annoations' : annoations,
+                                'annoations' : annotations,
                                 'imrad' : imrad})
         return output
     
@@ -88,6 +89,22 @@ class question_preprocessing:
 
     def template_matching(self, input_question):
         templates =  ["Which papers use .*?", "In which year was the paper .* published?", "Which papers are associated with.*?"]
+        for template in templates:
+            if re.match(template, input_question):
+                return True
+
+        return False
+
+    def annotation_template(self, input_question):
+        templates = ["(Which|What) (dataset|datasets|method) .*"]
+        for template in templates:
+            if re.match(template, input_question):
+                return True
+
+        return False
+
+    def check_imrad(self, input_question):
+        templates = ["(Which|What) .* (use|propose|plan) .*"]
         for template in templates:
             if re.match(template, input_question):
                 return True
