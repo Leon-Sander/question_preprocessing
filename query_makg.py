@@ -11,6 +11,7 @@ class mag_connection:
     def query_makg(self, author, keyword):
         paper_list = []
         if (author != None) and (keyword != None):
+            # wenn man den author nicht exakt matcht sondern ein contains überprüft dauert der query ewig
             self.sparql.setQuery("""PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
                 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
                 PREFIX dcterms: <http://purl.org/dc/terms/>
@@ -23,7 +24,8 @@ class mag_connection:
                     ?author foaf:name """ + '\"' + author + '\"' + """^^xsd:string .
                     ?paper dcterms:creator ?author .
                     ?paper rdf:type magc:Paper .
-                    ?paper prism:keyword """ + '\"' + keyword + '\"' + """^^xsd:string .
+                    ?paper prism:keyword ?keyword .
+                    filter contains(?keyword, """ + '\"' + keyword + '\"' + """^^xsd:string) 
                 }
                 """)
             
@@ -36,10 +38,11 @@ class mag_connection:
                 SELECT ?paper
                 WHERE {
                     ?paper rdf:type magc:Paper .
-                    ?paper prism:keyword """ + '\"' + keyword + '\"' + """^^xsd:string .
+                    ?paper prism:keyword ?keyword .
+                    filter contains(?keyword, """ + '\"' + keyword + '\"' + """^^xsd:string) 
                 }
                 """)
-
+                #?paper prism:keyword """ + '\"' + keyword + '\"' + """^^xsd:string .
 
 
         elif (author != None) and (keyword == None):

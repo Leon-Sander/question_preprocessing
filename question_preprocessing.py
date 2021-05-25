@@ -26,7 +26,7 @@ class question_preprocessing:
         kg = self.template_matching(input_question)
 
 
-        if kg == False:
+        if kg == True:
             output = json.dumps({'plural': plural, 
                                 'MAG-IDs/MAKG-IDs' : paper_id,
                                 'KG' : kg})
@@ -104,7 +104,7 @@ class question_preprocessing:
         return False
 
     def check_imrad(self, input_question):
-        templates = ["(Which|What) .* (use|propose|plan) .*"]
+        templates = ["(Which|What) .* (use|used|propose|plan) .*"]
         for template in templates:
             if re.match(template, input_question):
                 return True
