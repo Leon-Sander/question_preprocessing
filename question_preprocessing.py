@@ -23,7 +23,7 @@ class question_preprocessing:
             paper_id = self.query_makg(author, keyword)
 
 
-        kg = self.template_matching(input_question)
+        kg = self.check_kg_or_ir(input_question)
 
 
         if kg == True:
@@ -87,9 +87,21 @@ class question_preprocessing:
         # queried nach dem exakten author und dem exakten keyword
         return self.qm.query_makg(author, keyword)
 
-    def template_matching(self, input_question):
-        templates =  ["Which papers use .*?", "In which year was the paper .* published?", "Which papers are associated with.*?"]
-        for template in templates:
+    def check_kg_or_ir(self, input_question):
+        kg_single_pattern = ["Which papers (is|does) the paper .* (cite|citing)\?",
+                     "When was the paper .* published\?",
+                     "Who authored paper .*",
+                     "Who (was|were) the author(s)? of the paper .*"]
+        kg_global_pattern = ["(Which|What) papers (were|are) associated with .*",
+                     "(Which|What) conferences since ((^([1-9] |1[0-9]| 2[0-9]|3[0-1])(.|-)([1-9] |1[0-2])(.|-|)(19|20)[0-9][0-9]$)|\d+) (have been|were|are) most influential?",
+                     "How many papers (have been|are|were) published .*",
+                     "In (which|what) conferences has .* published?"]
+        
+        for template in kg_single_pattern:
+            if re.match(template, input_question):
+                return True
+
+        for template in kg_global_pattern:
             if re.match(template, input_question):
                 return True
 
