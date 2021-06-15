@@ -25,6 +25,27 @@ The Class **question_preprocessing** processes an input question in the followin
                                 'annoations' : True/False,
                                 'imrad' : True/False} 
 
+##### Templates used right now for check_kg
+
+        kg_single_pattern = ["Which papers (is|does) the paper .* (cite|citing)\?",
+                     "When (was|has) the paper .* published\?",
+                     "Who authored paper .*",
+                     "Who (was|were) the author(s)? of the paper .*"]
+
+        kg_global_pattern = ["(Which|What) paper(s)? (were|are|is|has been|was) associated with .*",
+                     "(Which|What) conference(s)? since ((^([1-9] |1[0-9]| 2[0-9]|3[0-1])(.|-)([1-9] |1[0-2])(.|-|)(19|20)[0-9][0-9]$)|\d+) (have been|were|are) most influential?",
+                     "How many papers (have been|are|were) published .*",
+                     "In (which|what) conference(s)? has .* published?"] 
+
+##### Templates used right now for check_imrad
+
+         imrad_templates = ["(Which|What) (data( )?set(s)?|.*method(s)?|metric(s)?) (are|is|were|have been) (used|proposed|employed|utilised|utilized|applied|provided|introduced) .*",
+               "Does paper .* provide (a )?(data( )?set(s)?|.*method(s)?)\??",
+               "Is paper .* (providing|using|proposing|utilising|utilizing) a data( )?set\??",
+               "(Which|What) (data( )?set(s)?|.*method(s)?) does paper .* (compare|use|provide|employ)",
+               "(Which|What) (data( )?set(s)?|.*method(s)?) (are|is|was|were) compared to, in the paper .*",
+               "What (is|was|has been) proposed as future work .*"]
+
 
 #### test.ipynb
 
