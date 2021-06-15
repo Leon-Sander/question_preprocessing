@@ -9,10 +9,11 @@ The Class **question_preprocessing** processes an input question in the followin
    4. Check_kg: This method checks if the question is about meta data which can be extracted from a Knowledge Graph. This is done by regex matching.
 
    If kg == True -> 
-                    Json return format: {'plural': True/False, 
+   
+                     Json return format: {'plural': True/False, 
                                  'MAG-IDs/MAKG-IDs' : [id/s],
                                  'KG' : True/False}
-   if kg == False ->
+   If kg == False ->
 
    5. Annotation_template: This Method checks if the question contains the words dataset or method.
    6. Check_imrad: This method matches the sentence on regex pattern which indicate that the information can be
