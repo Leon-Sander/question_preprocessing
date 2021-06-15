@@ -8,7 +8,8 @@ The Class **question_preprocessing** processes an input question in the followin
       to retrieve paper_ids which are written by the author containing the respecting keywords 
    4. Check_kg: This method checks if the question is about meta data which can be extracted from a Knowledge Graph. This is done by regex matching.
 
-   If kg == True -> Json return format: {'plural': True/False, 
+   If kg == True -> 
+                    Json return format: {'plural': True/False, 
                                  'MAG-IDs/MAKG-IDs' : [id/s],
                                  'KG' : True/False}
    if kg == False ->
