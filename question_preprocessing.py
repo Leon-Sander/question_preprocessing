@@ -2,13 +2,13 @@ from nltk import pos_tag, word_tokenize
 import re
 import json
 from query_makg import mag_connection
-
+from templates import templates
 class question_preprocessing:
     
 
     def __init__(self):
         self.qm = mag_connection()
-        pass
+        self.templates = templates()
 
     def question_classification(self,input_question):
         #### plural
@@ -34,7 +34,7 @@ class question_preprocessing:
                                 'KG' : kg})
         else:
         #### annotations
-            annotations = self.annotation_template(input_question)
+            annotations = self.check_annotations(input_question)
         #### imrad
             imrad = self.check_imrad(input_question)
             
@@ -97,14 +97,8 @@ class question_preprocessing:
         return self.qm.query_makg(author, keyword)
 
     def check_kg(self, input_question):
-        kg_single_pattern = ["Which papers (is|does) the paper .* (cite|citing)\?",
-                     "When (was|has) the paper .* published\?",
-                     "Who authored paper .*",
-                     "Who (was|were) the author(s)? of the paper .*"]
-        kg_global_pattern = ["(Which|What) paper(s)? (were|are|is|has been|was) associated with .*",
-                     "(Which|What) conference(s)? since ((^([1-9] |1[0-9]| 2[0-9]|3[0-1])(.|-)([1-9] |1[0-2])(.|-|)(19|20)[0-9][0-9]$)|\d+) (have been|were|are) most influential?",
-                     "How many papers (have been|are|were) published .*",
-                     "In (which|what) conference(s)? has .* published?"] 
+        kg_single_pattern = self.templates.kg_single_pattern
+        kg_global_pattern = self.templates.kg_global_pattern
         
         for template in kg_single_pattern:
             if re.match(template, input_question):
@@ -116,8 +110,8 @@ class question_preprocessing:
 
         return False
 
-    def annotation_template(self, input_question):
-        annotation_templates = ["(data( )?set(s)?|.*method(s)?)"]
+    def check_annotations(self, input_question):
+        annotation_templates = self.templates.annotation_templates
         for template in annotation_templates:
             if re.search(template, input_question) != None:
                 return True
@@ -127,13 +121,8 @@ class question_preprocessing:
 
     def check_imrad(self, input_question):
 
-        imrad_templates = ["(Which|What) (data( )?set(s)?|.*method(s)?|metric(s)?) (are|is|were|have been) (used|proposed|employed|utilised|utilized|applied|provided|introduced) .*",
-        "Does paper .* provide (a )?(data( )?set(s)?|.*method(s)?)\??",
-        "Is paper .* (providing|using|proposing|utilising|utilizing) a data( )?set\??",
-        "(Which|What) (data( )?set(s)?|.*method(s)?) does paper .* (compare|use|provide|employ)",
-        "(Which|What) (data( )?set(s)?|.*method(s)?) (are|is|was|were) compared to, in the paper .*",
-        "What (is|was|has been) proposed as future work .*"
-    ]
+        imrad_templates = self.templates.imrad_templates
+
         for template in imrad_templates:
             if re.match(template, input_question):
                 return True

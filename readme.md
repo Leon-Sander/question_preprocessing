@@ -15,7 +15,7 @@ The Class **question_preprocessing** processes an input question in the followin
                                  'KG' : True/False}
    If kg == False ->
 
-   5. Annotation_template: This Method checks if the question contains the words dataset or method.
+   5. Check_annotations: This Method checks if the question contains the words dataset or method.
    6. Check_imrad: This method matches the sentence on regex pattern which indicate that the information can be
       retrieved from a specific section of the paper/s.
 
@@ -24,6 +24,11 @@ The Class **question_preprocessing** processes an input question in the followin
                                 'KG' : True/False,
                                 'annoations' : True/False,
                                 'imrad' : True/False} 
+
+##### Templates.py
+
+   This class contains all regex pattern/templates used in the methods check_kg, annotation_template, check_imrad and pattern to check if a 
+   question is about information retrieval.
 
 ##### Templates used right now for check_kg
 
