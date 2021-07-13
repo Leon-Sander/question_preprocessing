@@ -36,13 +36,19 @@ class question_preprocessing:
         #### annotations
             annotations = self.check_annotations(input_question)
         #### imrad
-            imrad = self.check_imrad(input_question)
-            
-            output = json.dumps({'plural': plural, 
+            imrad, section = self.check_imrad(input_question)
+            output_dict = {'plural': plural, 
                                 'MAG-IDs/MAKG-IDs' : paper_id,
                                 'KG' : kg,
                                 'annoations' : annotations,
-                                'imrad' : imrad})
+                                'imrad' : imrad}
+
+            
+            if section != '':
+                output_dict['imrad section'] = section
+
+            output = json.dumps(output_dict)
+
         return output
     
     def check_plural(self,input_question):
@@ -120,11 +126,33 @@ class question_preprocessing:
 
 
     def check_imrad(self, input_question):
-
+        
+        
         imrad_templates = self.templates.imrad_templates
-
+        imrad = False
         for template in imrad_templates:
             if re.match(template, input_question):
-                return True
+                imrad = True
+                break
+                #return True
 
-        return False
+        section = self.check_imrad_section(input_question)
+        if section != '':
+            imrad = True
+
+        return imrad, section
+        #return False
+
+    def check_imrad_section(self, input_question):
+        imrad_section_dict = self.templates.imrad_section_dict
+        section = ''
+        for key in imrad_section_dict:
+            if section != '':
+                break
+            for template in imrad_section_dict[key]:
+                res = re.search(template, input_question)
+                if res != None:
+                    section = key
+                    break
+
+        return section

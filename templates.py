@@ -12,7 +12,7 @@ class templates:
                      "How many papers (have been|are|were) published .*",
                      "In (which|what) conference(s)? has .* published?"] 
 
-
+        #(Introduction, Methods, Results, Discussion)
         # pattern to check if the information needed can be looked up in an imrad section of the paper
         self.imrad_templates = ["(Which|What) (data( )?set(s)?|.*method(s)?|metric(s)?) (are|is|were|have been) (used|proposed|employed|utilised|utilized|applied|provided|introduced) .*",
         "Does paper .* provide (a )?(data( )?set(s)?|.*method(s)?)\??",
@@ -20,6 +20,11 @@ class templates:
         "(Which|What) (data( )?set(s)?|.*method(s)?) does paper .* (compare|use|provide|employ)",
         "(Which|What) (data( )?set(s)?|.*method(s)?) (are|is|was|were) compared to, in the paper .*",
         "What (is|was|has been) proposed as future work .*"]
+
+        self.imrad_section_dict = {'Introduction' : ['(I|i)ntroduction'], 
+                                    'Methods' : ['method(s)?','data( )?set(s)?'],
+                                    'Results' : ['result(s)?'],
+                                    'Discussion' : ['discussion(s)?'] }
 
 
 
